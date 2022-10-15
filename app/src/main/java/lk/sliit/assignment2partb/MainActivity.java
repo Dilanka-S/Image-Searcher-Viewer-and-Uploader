@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     EditText searchKey;
     RecyclerView recyclerView;
-    Button singleColumn, doubleColumn;
+    Button doubleColumn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loadImage = findViewById(R.id.loadImage);
+        doubleColumn = findViewById(R.id.loadIMageTwoCols);
         recyclerView = findViewById(R.id.imageRecycler);
         progressBar = findViewById(R.id.progressBarId);
         searchKey = findViewById(R.id.inputSearch);
@@ -52,14 +52,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 recyclerView.setVisibility(View.INVISIBLE);
-                searchImage();
+                searchImage(1);
+            }
+        });
+        doubleColumn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.INVISIBLE);
+                searchImage(2);
             }
         });
 
 
     }
 
-    public void searchImage(){
+    public void searchImage(int col){
         Toast.makeText(MainActivity.this, "Searching starts", Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
         SearchTask searchTask = new SearchTask(MainActivity.this);
@@ -76,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(@NonNull String s) {
                 Toast.makeText(MainActivity.this, "Searching Ends", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
-                loadImage(s);
+                loadImage(s,col);
             }
 
             @Override
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void loadImage(String response){
+    public void loadImage(String response, int col){
         ImageRetrievalTask imageRetrievalTask = new ImageRetrievalTask(MainActivity.this);
         imageRetrievalTask.setData(response);
         Toast.makeText(MainActivity.this, "Image loading starts", Toast.LENGTH_SHORT).show();
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Image loading Ends", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2,RecyclerView.VERTICAL,false));
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,col,RecyclerView.VERTICAL,false));
                 recyclerView.setAdapter(new ImageAdapter(bitmaps));
                 System.out.println("\n\n\nPrinting bitmaps from main\n"+bitmaps);
                 //picture.setImageBitmap(bitmap);

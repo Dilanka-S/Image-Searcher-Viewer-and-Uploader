@@ -77,7 +77,7 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
             JSONObject jBase = new JSONObject(data);
             JSONArray jHits = jBase.getJSONArray("hits");
             if(jHits.length()>0){
-                for (int i = 0; i < 15; i++) {
+                for (int i = 0; i < jHits.length(); i++) {
                     JSONObject jHitsItem = jHits.getJSONObject(i);
                     imageUrls.add(jHitsItem.getString("largeImageURL"));
                 }
