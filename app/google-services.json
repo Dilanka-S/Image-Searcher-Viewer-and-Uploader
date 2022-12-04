@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "430159710218",
+    "project_id": "assignment2partb-22388",
+    "storage_bucket": "assignment2partb-22388.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430159710218:android:337abf02d1d0e94cad77f3",
+        "android_client_info": {
+          "package_name": "lk.sliit.assignment2partb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430159710218-vaotp0ctr7rns2qcfinmb3sgdnbjhp37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBylWY22zDaukdJXhCal0PVuzW7ACuW3Dw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430159710218-vaotp0ctr7rns2qcfinmb3sgdnbjhp37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

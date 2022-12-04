@@ -3,7 +3,8 @@ package lk.sliit.assignment2partb;
 import android.app.Activity;
 import android.widget.Toast;
 
-import org.apache.commons.io.IOUtils;
+
+import com.google.android.gms.common.util.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

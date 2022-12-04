@@ -30,10 +30,10 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
     public ArrayList<Bitmap> call() throws Exception {
         Bitmap image = null;
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        String endpoint = getEndpoint(this.data);
+        //String endpoint = getEndpoint(this.data);
         ArrayList<String> endpointList = getEndpoints(this.data);
         //System.out.println("\n\n\nPrinting endpoint list\n"+endpointList);
-        if(endpoint==null){
+        if(endpointList==null){
             uiActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -42,7 +42,7 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
             });
         }
         else {
-            image = getImageFromUrl(endpoint);
+            //image = getImageFromUrl(endpoint);
             bitmaps = getImagesFromUrls(endpointList);
             try {
                 Thread.sleep(3000);
@@ -52,24 +52,24 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
         }
         assert image != null;
         //System.out.println("\n\n\nBitmap image"+image.toString());
-        //System.out.println("\n\n\nBitmap list"+bitmaps.toString());
+        System.out.println("\n\n\nBitmap list"+bitmaps.toString());
         return bitmaps;
     }
 
-    private String getEndpoint(String data){
-        String imageUrl = null;
-        try {
-            JSONObject jBase = new JSONObject(data);
-            JSONArray jHits = jBase.getJSONArray("hits");
-            if(jHits.length()>0){
-                JSONObject jHitsItem = jHits.getJSONObject(0);
-                imageUrl = jHitsItem.getString("webformatURL");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return imageUrl;
-    }
+//    private String getEndpoint(String data){
+//        String imageUrl = null;
+//        try {
+//            JSONObject jBase = new JSONObject(data);
+//            JSONArray jHits = jBase.getJSONArray("hits");
+//            if(jHits.length()>0){
+//                JSONObject jHitsItem = jHits.getJSONObject(0);
+//                imageUrl = jHitsItem.getString("webformatURL");
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return imageUrl;
+//    }
 
     private ArrayList<String> getEndpoints(String data){
         ArrayList<String> imageUrls = new ArrayList<>();
@@ -77,9 +77,16 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
             JSONObject jBase = new JSONObject(data);
             JSONArray jHits = jBase.getJSONArray("hits");
             if(jHits.length()>0){
-                for (int i = 0; i < jHits.length(); i++) {
-                    JSONObject jHitsItem = jHits.getJSONObject(i);
-                    imageUrls.add(jHitsItem.getString("largeImageURL"));
+                if (jHits.length()>15){
+                    for (int i = 0; i < 15; i++) {
+                        JSONObject jHitsItem = jHits.getJSONObject(i);
+                        imageUrls.add(jHitsItem.getString("previewURL"));
+                    }
+                }else{
+                    for (int i = 0; i < jHits.length(); i++) {
+                        JSONObject jHitsItem = jHits.getJSONObject(i);
+                        imageUrls.add(jHitsItem.getString("previewURL"));
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -88,19 +95,19 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
         return imageUrls;
     }
 
-    private Bitmap getImageFromUrl(String imageUrl){
-        Bitmap image = null;
-        Uri.Builder url = Uri.parse(imageUrl).buildUpon();
-        String urlString = url.build().toString();
-        HttpURLConnection connection = remoteUtilities.openConnection(urlString);
-        if(connection!=null){
-            if(remoteUtilities.isConnectionOkay(connection)==true){
-                image = getBitmapFromConnection(connection);
-                connection.disconnect();
-            }
-        }
-        return image;
-    }
+//    private Bitmap getImageFromUrl(String imageUrl){
+//        Bitmap image = null;
+//        Uri.Builder url = Uri.parse(imageUrl).buildUpon();
+//        String urlString = url.build().toString();
+//        HttpURLConnection connection = remoteUtilities.openConnection(urlString);
+//        if(connection!=null){
+//            if(remoteUtilities.isConnectionOkay(connection)==true){
+//                image = getBitmapFromConnection(connection);
+//                connection.disconnect();
+//            }
+//        }
+//        return image;
+//    }
 
     private ArrayList<Bitmap> getImagesFromUrls(ArrayList<String> imageUrls){
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
@@ -122,7 +129,7 @@ public class ImageRetrievalTask implements Callable<ArrayList<Bitmap>> {
 
 
     public Bitmap getBitmapFromConnection(HttpURLConnection conn){
-        //System.out.println("\n\n\nPrinting connection\n"+conn);
+        System.out.println("\n\n\nPrinting connection\n"+conn);
         Bitmap data = null;
         try {
             InputStream inputStream = conn.getInputStream();

@@ -1,5 +1,11 @@
+//Name : Dilanka Vishad Seneviratne
+//Curtin ID : 20529624
+//Assigment 2B  - COMP 2008
+// References :  Lecture 09, Demo Code
+
 package lk.sliit.assignment2partb;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     EditText searchKey;
     RecyclerView recyclerView;
     Button doubleColumn;
+    Button uploadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.imageRecycler);
         progressBar = findViewById(R.id.progressBarId);
         searchKey = findViewById(R.id.inputSearch);
+        uploadButton = findViewById(R.id.uploadButton);
         progressBar.setVisibility(View.INVISIBLE);
         loadImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 recyclerView.setVisibility(View.INVISIBLE);
                 searchImage(2);
+            }
+        });
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UploadActivity.class);
+                startActivity(intent);
             }
         });
 
